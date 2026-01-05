@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Ticket Auto-Routing System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Main Content -->
+    <div class="container">
+        <header>
+            <h1>Ticket Classification Dashboard</h1>
+            <p class="subtitle">AI-powered support ticket routing with confidence thresholding</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Input Section -->
+            <div class="input-section">
+                <h2>Enter Support Ticket</h2>
+                <textarea 
+                    id="ticketText" 
+                    placeholder="Example: I got a problem with login lately, I cant seem to access my account..."
+                    rows="6"
+                ></textarea>
+
+                <div class="threshold-section">
+                    <label for="threshold">
+                        Confidence Threshold: <span id="thresholdValue">0.75</span>
+                    </label>
+                    <input 
+                        type="range" 
+                        id="threshold" 
+                        min="0.5" 
+                        max="0.95" 
+                        step="0.05" 
+                        value="0.75"
+                    >
+                    <p class="threshold-help">
+                        Tickets below this confidence will be routed to human agents
+                    </p>
+                </div>
+
+                <button id="classifyBtn" class="btn-primary">
+                    Classify Ticket
+                </button>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section" id="resultsSection" style="display: none;">
+                <h2>Classification Results</h2>
+                
+                <div class="prediction-card">
+                    <div class="prediction-header">
+                        <h3>Predicted Department</h3>
+                        <span id="actionBadge" class="badge"></span>
+                    </div>
+                    <div class="department-name" id="departmentName"></div>
+                    <div class="confidence-bar">
+                        <div class="confidence-fill" id="confidenceFill"></div>
+                    </div>
+                    <p class="confidence-text">
+                        Confidence: <strong id="confidenceValue"></strong>
+                    </p>
+                    <p class="action-reason" id="actionReason"></p>
+                </div>
+
+                <div class="probabilities-card">
+                    <h3>All Department Probabilities</h3>
+                    <div id="probabilitiesList"></div>
+                </div>
+
+                <div class="info-card">
+                    <h4>What does this mean?</h4>
+                    <ul>
+                        <li><strong>AUTO_ROUTE:</strong> High confidence - ticket can be automatically routed</li>
+                        <li><strong>ROUTE_TO_HUMAN:</strong> Low confidence - human review recommended</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div class="loading" id="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Classifying ticket...</p>
+            </div>
+
+            <!-- Error Message -->
+            <div class="error-message" id="errorMessage" style="display: none;"></div>
+        </div>
+
+        <footer>
+            <p>CNN Text Classifier | Test Accuracy: 67.2% | Macro-F1: 58.2% | Latency: 1.28ms</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

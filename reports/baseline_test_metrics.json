@@ -1,0 +1,5 @@
+{
+  "model": "TFIDF + LogisticRegression",
+  "accuracy": 0.4920440636474908,
+  "macro_f1": 0.4886048671389644
+}

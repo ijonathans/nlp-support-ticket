@@ -1,0 +1,29 @@
+{
+  "labels": [
+    "Billing",
+    "Customer Service",
+    "HR",
+    "Product Support",
+    "Returns",
+    "Sales",
+    "Tech Support"
+  ],
+  "label2id": {
+    "Billing": 0,
+    "Customer Service": 1,
+    "HR": 2,
+    "Product Support": 3,
+    "Returns": 4,
+    "Sales": 5,
+    "Tech Support": 6
+  },
+  "id2label": {
+    "0": "Billing",
+    "1": "Customer Service",
+    "2": "HR",
+    "3": "Product Support",
+    "4": "Returns",
+    "5": "Sales",
+    "6": "Tech Support"
+  }
+}
