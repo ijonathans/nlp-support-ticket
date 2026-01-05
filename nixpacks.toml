@@ -2,7 +2,11 @@
 nixPkgs = ["python312"]
 
 [phases.install]
-cmds = ["pip install --no-cache-dir -r requirements.txt"]
+cmds = [
+  "pip install --upgrade pip",
+  "pip install --no-cache-dir numpy gunicorn flask",
+  "pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cpu torch==2.5.1+cpu"
+]
 
 [start]
-cmd = "gunicorn app:app --bind 0.0.0.0:$PORT"
+cmd = "gunicorn app:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120"
