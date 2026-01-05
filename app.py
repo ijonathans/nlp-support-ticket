@@ -111,6 +111,10 @@ def load_model_and_artifacts():
 @torch.no_grad()
 def predict(text: str, threshold: float = 0.75):
     """Predict department for given text."""
+    # Ensure model is loaded (for Gunicorn workers)
+    if model is None or vocab is None or id2label is None:
+        load_model_and_artifacts()
+    
     encoded = encode(text, vocab, max_len)
     x = torch.tensor([encoded], dtype=torch.long).to(device)
     
