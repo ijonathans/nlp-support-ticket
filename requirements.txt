@@ -4,5 +4,5 @@ numpy==2.0.2
 gunicorn==21.2.0
 
 # PyTorch CPU-only version (much smaller than GPU version)
---index-url https://download.pytorch.org/whl/cpu
+--extra-index-url https://download.pytorch.org/whl/cpu
 torch==2.5.1+cpu
