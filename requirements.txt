@@ -1,7 +1,7 @@
 # Core dependencies for web app
-flask==3.0.0
-torch==2.1.0
-numpy==1.24.3
+flask>=3.0.0
+torch>=2.2.0
+numpy>=1.24.0
 
 # Optional: For development/training (not needed for deployment)
 # scikit-learn==1.3.2
