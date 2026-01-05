@@ -1,7 +1,7 @@
 # Core dependencies for web app
 flask==3.0.0
-torch==2.1.2
-numpy==1.24.3
+torch==2.5.1
+numpy==1.26.0
 gunicorn==21.2.0
 
 # Optional: For development/training (not needed for deployment)
