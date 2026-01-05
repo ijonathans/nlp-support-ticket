@@ -93,10 +93,10 @@ def load_model_and_artifacts():
     pad_id = vocab["<PAD>"]
     model = SimpleTextCNN(
         vocab_size=len(vocab),
-        embed_dim=150,
+        embed_dim=200,
         num_classes=num_classes,
         pad_id=pad_id,
-        num_filters=128,
+        num_filters=256,
         dropout=0.3
     ).to(device)
     
