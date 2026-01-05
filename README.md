@@ -4,7 +4,7 @@ An NLP-based system that automatically routes customer support tickets to the co
 
 ## 🌐 Live Demo
 
-**Try it online:** [Deployed on Vercel](https://your-app-name.vercel.app) *(Update after deployment)*
+**Try it online:** [Deployed on Railway](https://your-app.up.railway.app) *(Update after deployment)*
 
 ## 🚀 Quick Start - Local Development
 

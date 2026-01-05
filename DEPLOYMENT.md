@@ -1,70 +1,41 @@
 # Deployment Guide
 
-## 🚀 Deploy to Vercel
+## 🚀 Deploy to Railway (Recommended)
 
 ### Prerequisites
 - GitHub account
-- Vercel account (sign up at [vercel.com](https://vercel.com))
-- Git installed locally
+- Railway account (sign up at [railway.app](https://railway.app))
+- Git installed locally (already done!)
 
-### Step 1: Push to GitHub
+### Step 1: Code Already on GitHub ✅
 
-1. **Initialize Git repository:**
-```bash
-git init
-git add .
-git commit -m "Initial commit: Support ticket classification system"
+Your code is already pushed to:
+```
+https://github.com/ijonathans/nlp-support-ticket.git
 ```
 
-2. **Add remote and push:**
-```bash
-git remote add origin https://github.com/ijonathans/nlp-support-ticket.git
-git branch -M main
-git push -u origin main
+### Step 2: Deploy on Railway
+
+1. Go to **[railway.app](https://railway.app)** and sign in with GitHub
+2. Click **"New Project"**
+3. Select **"Deploy from GitHub repo"**
+4. Choose **`nlp-support-ticket`** from the list
+5. Railway will automatically:
+   - Detect it's a Flask app
+   - Install dependencies from `requirements.txt`
+   - Use `Procfile` to start with Gunicorn
+   - Deploy to production
+6. Wait 3-5 minutes for deployment
+
+### Step 3: Generate Domain
+
+1. In Railway dashboard, go to your project
+2. Click **"Settings"** tab
+3. Scroll to **"Domains"**
+4. Click **"Generate Domain"**
+5. You'll get a URL like:
 ```
-
-### Step 2: Deploy on Vercel
-
-#### Option A: Deploy via Vercel Dashboard (Recommended)
-
-1. Go to [vercel.com](https://vercel.com) and sign in
-2. Click **"Add New Project"**
-3. Import your GitHub repository: `ijonathans/nlp-support-ticket`
-4. Vercel will auto-detect the Flask app
-5. Configure settings:
-   - **Framework Preset:** Other
-   - **Build Command:** (leave empty)
-   - **Output Directory:** (leave empty)
-   - **Install Command:** `pip install -r requirements.txt`
-6. Click **"Deploy"**
-
-#### Option B: Deploy via Vercel CLI
-
-1. **Install Vercel CLI:**
-```bash
-npm install -g vercel
-```
-
-2. **Login to Vercel:**
-```bash
-vercel login
-```
-
-3. **Deploy:**
-```bash
-vercel
-```
-
-4. **Deploy to production:**
-```bash
-vercel --prod
-```
-
-### Step 3: Verify Deployment
-
-Once deployed, Vercel will provide a URL like:
-```
-https://nlp-support-ticket.vercel.app
+https://nlp-support-ticket-production.up.railway.app
 ```
 
 Visit the URL to test your app!
@@ -73,62 +44,54 @@ Visit the URL to test your app!
 
 ## ⚙️ Configuration Files
 
-### `vercel.json`
-Configures Vercel to run the Flask app:
-```json
-{
-  "version": 2,
-  "builds": [
-    {
-      "src": "app.py",
-      "use": "@vercel/python"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "app.py"
-    }
-  ]
-}
+### `Procfile`
+Tells Railway how to start the app:
+```
+web: gunicorn app:app --bind 0.0.0.0:$PORT
 ```
 
 ### `requirements.txt`
-Production dependencies (minimal for faster deployment):
+Production dependencies:
 ```
 flask==3.0.0
-torch==2.1.0
+torch==2.1.2
 numpy==1.24.3
+gunicorn==21.2.0
 ```
 
 ---
 
 ## 🔧 Troubleshooting
 
-### Issue: Deployment fails with "Module not found"
+### Issue: Build takes a long time
+**Normal:** PyTorch installation takes 2-3 minutes. Be patient!
+
+### Issue: "Module not found"
 **Solution:** Make sure all dependencies are in `requirements.txt`
 
 ### Issue: Model files not loading
-**Solution:** Ensure model files are committed to Git:
-```bash
-git add models/cnn_balanced.pt
-git add artifacts/vocab_balanced.json
-git add artifacts/label_map_balanced.json
-git commit -m "Add model files"
-git push
-```
+**Solution:** Ensure model files are committed to Git (already done!)
 
-### Issue: Deployment timeout
-**Solution:** PyTorch models can be large. Vercel has a 250MB limit for serverless functions. Consider:
-- Using a smaller model
-- Deploying to alternative platforms (Heroku, Railway, Render)
+### Issue: Application Error (502)
+**Check:**
+- Deployment logs in Railway dashboard
+- Ensure `Procfile` is correct
+- Verify model files exist in repository
 
-### Issue: Cold start latency
-**Solution:** Vercel serverless functions have cold starts. First request may be slow (~5-10s). Subsequent requests are fast.
+### Issue: Out of memory
+**Solution:** Railway provides 8GB RAM by default, which is plenty for this app. If issues persist, check for memory leaks.
 
 ---
 
 ## 🌐 Alternative Deployment Options
+
+### Render
+1. Go to [render.com](https://render.com)
+2. Click "New Web Service"
+3. Connect your GitHub repository
+4. Configure:
+   - **Build Command:** `pip install -r requirements.txt`
+   - **Start Command:** `gunicorn app:app`
 
 ### Heroku
 ```bash
@@ -140,19 +103,6 @@ heroku create nlp-support-ticket
 git push heroku main
 ```
 
-### Railway
-1. Go to [railway.app](https://railway.app)
-2. Click "New Project" → "Deploy from GitHub repo"
-3. Select your repository
-4. Railway auto-detects Flask and deploys
-
-### Render
-1. Go to [render.com](https://render.com)
-2. Click "New Web Service"
-3. Connect your GitHub repository
-4. Configure:
-   - **Build Command:** `pip install -r requirements.txt`
-   - **Start Command:** `python app.py`
 
 ---
 
@@ -162,13 +112,13 @@ git push heroku main
 After deployment, update `README.md`:
 ```markdown
 ## 🌐 Live Demo
-**Try it online:** [https://your-app-name.vercel.app](https://your-app-name.vercel.app)
+**Try it online:** [https://your-app.up.railway.app](https://your-app.up.railway.app)
 ```
 
 ### Monitor Performance
-- Check Vercel dashboard for logs and analytics
-- Monitor response times and errors
-- Set up alerts for downtime
+- Check Railway dashboard for logs and metrics
+- Monitor CPU, memory, and network usage
+- View deployment history
 
 ---
 
@@ -183,10 +133,11 @@ After deployment, update `README.md`:
 
 ## 📊 Performance Expectations
 
-- **Cold Start:** 5-10 seconds (first request)
-- **Warm Requests:** 100-500ms
+- **First Load:** 2-5 seconds (model loading)
+- **Subsequent Requests:** 100-200ms
 - **Model Inference:** ~1.3ms per prediction
-- **Concurrent Users:** Vercel scales automatically
+- **Concurrent Users:** Railway handles multiple users well
+- **Memory Usage:** ~500MB-1GB (PyTorch model)
 
 ---
 
